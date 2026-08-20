@@ -96,7 +96,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden fixed inset-0 top-[60px] bg-cream z-30 px-6 py-8 animate-fadeUp">
+        <div className="md:hidden fixed inset-0 bg-cream z-30 px-6 pt-[100px] pb-8 animate-fadeUp">
           <nav className="flex flex-col gap-6 text-lg font-semibold">
             {navLinks.map((link) => (
               <Link key={link.label} to={link.to} onClick={() => setMenuOpen(false)} className="hover:text-saffron">

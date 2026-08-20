@@ -29,17 +29,23 @@ export default function Contact() {
       <div className="grid md:grid-cols-[1fr_1.3fr] gap-10 md:gap-16">
         <div className="space-y-6">
           {[
-            { icon: Mail, title: "Email", value: "hello@makzen.in" },
-            { icon: Phone, title: "Phone", value: "+91 98765 43210" },
-            { icon: MapPin, title: "Studio", value: "Chennai, Tamil Nadu, India" },
-          ].map(({ icon: Icon, title, value }) => (
+            { icon: Mail, title: "Email", value: "hello@makzen.in", href: "mailto:hello@makzen.in" },
+            { icon: Phone, title: "Phone", value: "+91 7000909219", href: "tel:+917000909219" },
+            { icon: MapPin, title: "Shop", value: "Jaipur, Rajasthan, India" },
+          ].map(({ icon: Icon, title, value, href }) => (
             <div key={title} className="flex items-start gap-4 bg-beige/50 rounded-xl2 p-5">
               <div className="w-11 h-11 rounded-full bg-cream flex items-center justify-center text-forest shrink-0">
                 <Icon size={18} />
               </div>
               <div>
                 <p className="font-bold text-sm">{title}</p>
-                <p className="text-sm text-charcoal/60">{value}</p>
+                {href ? (
+                  <a href={href} className="text-sm text-charcoal/80 hover:text-saffron transition-colors font-medium">
+                    {value}
+                  </a>
+                ) : (
+                  <p className="text-sm text-charcoal/60">{value}</p>
+                )}
               </div>
             </div>
           ))}

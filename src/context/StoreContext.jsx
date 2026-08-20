@@ -92,11 +92,16 @@ export function StoreProvider({ children }) {
 
   const itemCount = useMemo(() => cart.reduce((sum, i) => sum + i.qty, 0), [cart]);
 
+  const clearCart = useCallback(() => {
+    setCart([]);
+  }, []);
+
   const value = {
     cart: cartWithDetails,
     addToCart,
     removeFromCart,
     updateQty,
+    clearCart,
     subtotal,
     itemCount,
     isCartOpen,
