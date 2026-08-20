@@ -30,7 +30,7 @@ export default function Contact() {
         <div className="space-y-6">
           {[
             { icon: Mail, title: "Email", value: "hello@makzen.in", href: "mailto:hello@makzen.in" },
-            { icon: Phone, title: "Phone", value: "+91 7000909219", href: "tel:+917000909219" },
+            { icon: Phone, title: "Phone", value: "+91 9414931938", href: "tel:+919414931938" },
             { icon: MapPin, title: "Shop", value: "Jaipur, Rajasthan, India" },
           ].map(({ icon: Icon, title, value, href }) => (
             <div key={title} className="flex items-start gap-4 bg-beige/50 rounded-xl2 p-5">

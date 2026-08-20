@@ -4,8 +4,8 @@ import { Minus, Plus, X, ShoppingBag, CheckCircle2, MessageSquare, ArrowRight, T
 import ProductImage from "../components/ProductImage";
 import { useStore } from "../context/StoreContext";
 
-const STORE_PHONE = "+91 7000909219";
-const STORE_WA_NUMBER = "917000909219";
+const STORE_PHONE = "+91 94149 31938";
+const STORE_WA_NUMBER = "919414931938";
 
 export default function Cart() {
   const { cart, updateQty, removeFromCart, clearCart, subtotal, showToast } = useStore();
