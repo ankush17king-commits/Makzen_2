@@ -6,22 +6,35 @@ import { useStore } from "../context/StoreContext";
 
 const STORE_PHONE = "+91 94149 31938";
 const STORE_WA_NUMBER = "919414931938";
+const CUSTOMER_DATA_KEY = "makzen_customer_data_v1";
 
-export default function Cart() {
-  const { cart, updateQty, removeFromCart, clearCart, subtotal, showToast } = useStore();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [placing, setPlacing] = useState(false);
-  const [confirmedOrder, setConfirmedOrder] = useState(null);
-
-  const [formData, setFormData] = useState({
+function readSavedCustomerData() {
+  try {
+    const raw = localStorage.getItem(CUSTOMER_DATA_KEY);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch {
+    // fallback
+  }
+  return {
     name: "",
     phone: "",
     address: "",
     city: "Jaipur",
     state: "Rajasthan",
     pincode: "",
-    paymentMethod: "upi_whatsapp", // upi_whatsapp | cod
-  });
+    paymentMethod: "upi_whatsapp",
+  };
+}
+
+export default function Cart() {
+  const { cart, updateQty, removeFromCart, clearCart, addOrder, subtotal, showToast } = useStore();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [placing, setPlacing] = useState(false);
+  const [confirmedOrder, setConfirmedOrder] = useState(null);
+
+  const [formData, setFormData] = useState(() => readSavedCustomerData());
 
   const shipping = subtotal >= 599 || subtotal === 0 ? 0 : 49;
   const total = subtotal + shipping;
@@ -29,6 +42,14 @@ export default function Cart() {
   useEffect(() => {
     document.title = confirmedOrder ? "Order Confirmed! — Makzen" : "Your Cart — Makzen";
   }, [confirmedOrder]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CUSTOMER_DATA_KEY, JSON.stringify(formData));
+    } catch {
+      // ignore storage write errors
+    }
+  }, [formData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -91,6 +112,11 @@ export default function Cart() {
       );
 
       const waUrl = `https://wa.me/${STORE_WA_NUMBER}?text=${waMessage}`;
+
+      // Save order to store history for admin panel
+      if (addOrder) {
+        addOrder(orderDetails);
+      }
 
       setConfirmedOrder({ ...orderDetails, waUrl });
       clearCart();

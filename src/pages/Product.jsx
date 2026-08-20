@@ -12,10 +12,10 @@ const tabs = ["Description", "Ingredients", "FAQ"];
 export default function Product() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = getProductById(id);
+  const { products, getProduct, addToCart, wishlist, toggleWishlist } = useStore();
+  const product = getProduct(id);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState("Description");
-  const { addToCart, wishlist, toggleWishlist } = useStore();
 
   useEffect(() => {
     if (product) document.title = `${product.name} — Makzen`;
@@ -51,12 +51,20 @@ export default function Product() {
         {/* Images */}
         <div>
           <div className="relative bg-beige/50 rounded-xl2 flex items-center justify-center py-16 mb-4">
-            {discount > 0 && (
-              <span className="absolute top-4 left-4 bg-forest text-cream text-xs font-bold px-3 py-1.5 rounded-full">
-                {discount}% OFF
+            {product.inStock === false ? (
+              <span className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                OUT OF STOCK
               </span>
+            ) : (
+              discount > 0 && (
+                <span className="absolute top-4 left-4 bg-forest text-cream text-xs font-bold px-3 py-1.5 rounded-full">
+                  {discount}% OFF
+                </span>
+              )
             )}
-            <ProductImage product={product} size={280} />
+            <div className={product.inStock === false ? "opacity-60 grayscale-[30%]" : ""}>
+              <ProductImage product={product} size={280} />
+            </div>
             <Makhana size={26} className="absolute bottom-6 right-8 animate-float" />
           </div>
           <div className="grid grid-cols-3 gap-3">
@@ -101,37 +109,46 @@ export default function Product() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center border border-charcoal/15 rounded-full">
-              <button aria-label="Decrease quantity" onClick={() => setQty((q) => Math.max(1, q - 1))} className="p-3.5 hover:text-saffron">
-                <Minus size={14} />
-              </button>
-              <span className="w-8 text-center font-semibold">{qty}</span>
-              <button aria-label="Increase quantity" onClick={() => setQty((q) => q + 1)} className="p-3.5 hover:text-saffron">
-                <Plus size={14} />
-              </button>
-            </div>
-            <button
-              onClick={() => toggleWishlist(product.id)}
-              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-              aria-pressed={isWishlisted}
-              className="w-12 h-12 rounded-full border border-charcoal/15 flex items-center justify-center hover:border-saffron transition-colors"
-            >
-              <Heart size={18} className={isWishlisted ? "fill-saffron text-saffron" : "text-charcoal/50"} />
-            </button>
-          </div>
+          {product.inStock !== false ? (
+            <>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex items-center border border-charcoal/15 rounded-full">
+                  <button aria-label="Decrease quantity" onClick={() => setQty((q) => Math.max(1, q - 1))} className="p-3.5 hover:text-saffron">
+                    <Minus size={14} />
+                  </button>
+                  <span className="w-8 text-center font-semibold">{qty}</span>
+                  <button aria-label="Increase quantity" onClick={() => setQty((q) => q + 1)} className="p-3.5 hover:text-saffron">
+                    <Plus size={14} />
+                  </button>
+                </div>
+                <button
+                  onClick={() => toggleWishlist(product.id)}
+                  aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                  aria-pressed={isWishlisted}
+                  className="w-12 h-12 rounded-full border border-charcoal/15 flex items-center justify-center hover:border-saffron transition-colors"
+                >
+                  <Heart size={18} className={isWishlisted ? "fill-saffron text-saffron" : "text-charcoal/50"} />
+                </button>
+              </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
-            <button onClick={() => addToCart(product.id, qty)} className="btn-primary rounded-full px-8 py-4 text-sm flex-1">
-              ADD TO CART
-            </button>
-            <button
-              onClick={() => { addToCart(product.id, qty); navigate("/cart"); }}
-              className="btn-outline rounded-full px-8 py-4 text-sm flex-1"
-            >
-              BUY IT NOW
-            </button>
-          </div>
+              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+                <button onClick={() => addToCart(product.id, qty)} className="btn-primary rounded-full px-8 py-4 text-sm flex-1">
+                  ADD TO CART
+                </button>
+                <button
+                  onClick={() => { addToCart(product.id, qty); navigate("/cart"); }}
+                  className="btn-outline rounded-full px-8 py-4 text-sm flex-1"
+                >
+                  BUY IT NOW
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-xl mb-8">
+              <p className="font-bold text-red-700 text-sm">Currently Out of Stock</p>
+              <p className="text-xs text-red-600/80 mt-0.5">We are roasting a fresh batch! Please check back soon.</p>
+            </div>
+          )}
 
           <div className="grid grid-cols-3 gap-3 text-center border-t border-charcoal/10 pt-6">
             <div className="flex flex-col items-center gap-1.5">

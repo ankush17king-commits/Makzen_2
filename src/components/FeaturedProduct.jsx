@@ -10,9 +10,11 @@ import { getProductById } from "../data/products";
 export default function FeaturedProduct() {
   const ref = useReveal();
   const [qty, setQty] = useState(1);
-  const { addToCart } = useStore();
+  const { getProduct, addToCart } = useStore();
   const navigate = useNavigate();
-  const product = getProductById("cheese-peri-peri");
+  const product = getProduct("cheese-peri-peri");
+
+  if (!product) return null;
 
   const handleBuyNow = () => {
     addToCart(product.id, qty);

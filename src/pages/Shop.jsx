@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, SearchX } from "lucide-react";
 import ProductCard from "../components/ProductCard";
-import { products } from "../data/products";
+import { useStore } from "../context/StoreContext";
 
 const categories = ["All", "Spicy", "Cheesy", "Fresh", "Classic"];
 const sortOptions = [
@@ -13,6 +13,7 @@ const sortOptions = [
 ];
 
 export default function Shop() {
+  const { products } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const [category, setCategory] = useState(searchParams.get("category") || "All");
   const [sort, setSort] = useState("featured");
@@ -44,7 +45,7 @@ export default function Shop() {
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
     if (sort === "rating") list.sort((a, b) => b.rating - a.rating);
     return list;
-  }, [category, sort, query]);
+  }, [products, category, sort, query]);
 
   const handleCategory = (cat) => {
     setCategory(cat);

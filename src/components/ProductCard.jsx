@@ -19,14 +19,20 @@ export default function ProductCard({ product }) {
         <Heart size={16} className={isWishlisted ? "fill-saffron text-saffron" : "text-charcoal/60"} />
       </button>
 
-      {discount > 0 && (
-        <span className="absolute top-3 left-3 z-10 bg-forest text-cream text-[11px] font-bold px-2.5 py-1 rounded-full">
-          {discount}% OFF
+      {product.inStock === false ? (
+        <span className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+          OUT OF STOCK
         </span>
+      ) : (
+        discount > 0 && (
+          <span className="absolute top-3 left-3 z-10 bg-forest text-cream text-[11px] font-bold px-2.5 py-1 rounded-full">
+            {discount}% OFF
+          </span>
+        )
       )}
 
-      <Link to={`/product/${product.id}`} className="block bg-beige/50 py-8 overflow-hidden">
-        <div className="transition-transform duration-500 ease-out group-hover:scale-108 flex justify-center">
+      <Link to={`/product/${product.id}`} className="block bg-beige/50 py-8 overflow-hidden relative">
+        <div className={`transition-transform duration-500 ease-out group-hover:scale-108 flex justify-center ${product.inStock === false ? "opacity-60 grayscale-[40%]" : ""}`}>
           <ProductImage product={product} size={170} />
         </div>
       </Link>
@@ -52,12 +58,21 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        <button
-          onClick={() => addToCart(product.id, 1)}
-          className="btn-primary rounded-full py-2.5 text-xs mt-1.5"
-        >
-          ADD TO CART
-        </button>
+        {product.inStock === false ? (
+          <button
+            disabled
+            className="w-full bg-charcoal/10 text-charcoal/40 font-bold rounded-full py-2.5 text-xs mt-1.5 cursor-not-allowed uppercase"
+          >
+            Out of Stock
+          </button>
+        ) : (
+          <button
+            onClick={() => addToCart(product.id, 1)}
+            className="btn-primary rounded-full py-2.5 text-xs mt-1.5 uppercase"
+          >
+            ADD TO CART
+          </button>
+        )}
       </div>
     </div>
   );

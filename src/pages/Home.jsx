@@ -11,9 +11,11 @@ import Testimonials from "../components/Testimonials";
 import InstagramGrid from "../components/InstagramGrid";
 import FAQ from "../components/FAQ";
 import Newsletter from "../components/Newsletter";
-import { products } from "../data/products";
+import { useStore } from "../context/StoreContext";
 
 export default function Home() {
+  const { products } = useStore();
+
   useEffect(() => {
     document.title = "Makzen — Premium Roasted Makhana | Crunch Better";
     const meta = document.querySelector('meta[name="description"]');
