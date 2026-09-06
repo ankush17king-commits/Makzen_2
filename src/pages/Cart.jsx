@@ -430,10 +430,24 @@ export default function Cart() {
                     />
                   </a>
                   <div className="text-xs text-charcoal/80 space-y-1">
-                    <p className="font-bold text-forest mb-1">Tap QR or Scan to Pay ₹{total}</p>
-                    <p className="mt-2 text-[11px] leading-relaxed text-charcoal/70">
-                      <strong className="text-charcoal/90">How to verify payment?</strong><br/>
-                      If you are on your phone, you can <strong>tap the QR code</strong> to directly open GPay/PhonePe. Otherwise, scan it from another phone. After payment, take a screenshot of the Transaction ID (UTR) and share it on WhatsApp when confirming this order.
+                    <p className="font-bold text-forest mb-1">Tap QR or App Button to Pay ₹{total}</p>
+                    <p className="text-[11px] leading-relaxed text-charcoal/70">
+                      If you are on your phone, tap one of the apps below to pay directly:
+                    </p>
+                    <div className="flex flex-wrap gap-2 py-2">
+                      <a href={`phonepe://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#5f259f] hover:bg-[#4a1c7c] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                        PhonePe
+                      </a>
+                      <a href={`gpay://upi/pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-white hover:bg-gray-50 border border-charcoal/10 text-charcoal text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                        Google Pay
+                      </a>
+                      <a href={`paytmmp://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#00BAF2] hover:bg-[#0099C5] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                        Paytm
+                      </a>
+                    </div>
+                    <p className="mt-1 text-[11px] leading-relaxed text-charcoal/70">
+                      <strong className="text-charcoal/90">How to verify?</strong><br/>
+                      After payment, take a screenshot of the Transaction ID (UTR) and share it on WhatsApp when confirming this order.
                     </p>
                   </div>
                 </div>
