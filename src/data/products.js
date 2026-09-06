@@ -53,24 +53,7 @@ export const products = [
     ingredients: "Fox nuts (makhana), edible oil, peri-peri seasoning (paprika, red chilli, herbs, salt, sugar).",
     bestseller: true,
   },
-  {
-    id: "chatpata-masala",
-    name: "Chatpata Masala",
-    tagline: "A desi masala blend with a tangy twist.",
-    description:
-      "Inspired by the flavours of a street-side chaat, this blend brings tang, spice and a little bit of chaos — in the best way.",
-    category: "Spicy",
-    tags: ["spicy", "desi"],
-    price: 189,
-    mrp: 229,
-    rating: 4.5,
-    reviewCount: 77,
-    weight: "60g",
-    accent: "deep-orange",
-    highlights: ["Tangy masala blend", "Roasted, never fried", "Plant-based protein", "Resealable pouch"],
-    ingredients: "Fox nuts (makhana), edible oil, chaat masala (amchur, cumin, black salt, spices).",
-    bestseller: false,
-  },
+
   {
     id: "cream-onion",
     name: "Cream & Onion",
@@ -89,24 +72,7 @@ export const products = [
     ingredients: "Fox nuts (makhana), edible oil, cream & onion seasoning (milk solids, onion powder, spices).",
     bestseller: false,
   },
-  {
-    id: "pudina-twist",
-    name: "Pudina Twist",
-    tagline: "Cool mint, warm spice, clean crunch.",
-    description:
-      "A refreshing herby blend built around pudina, balanced with a light spice base. Feels lighter, tastes brighter.",
-    category: "Fresh",
-    tags: ["fresh"],
-    price: 189,
-    mrp: 229,
-    rating: 4.4,
-    reviewCount: 43,
-    weight: "60g",
-    accent: "forest",
-    highlights: ["Herby & refreshing", "Roasted, never fried", "Plant-based protein", "Resealable pouch"],
-    ingredients: "Fox nuts (makhana), edible oil, mint & herb seasoning (dried mint, spices, salt).",
-    bestseller: false,
-  },
+
 ];
 
 export const getProductById = (id) => products.find((p) => p.id === id);
