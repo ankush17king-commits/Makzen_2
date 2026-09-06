@@ -426,7 +426,6 @@ export default function Cart() {
                   />
                   <div className="text-xs text-charcoal/80 space-y-1">
                     <p className="font-bold text-forest mb-1">Scan to Pay ₹{total} via UPI</p>
-                    <p>UPI ID: <span className="font-bold text-charcoal">7000909219@upi</span></p>
                     <p className="mt-2 text-[11px] leading-relaxed text-charcoal/70">
                       <strong className="text-charcoal/90">How to verify payment?</strong><br/>
                       After payment, your UPI app will show a success screen with a Transaction ID (UTR). Take a screenshot and share it on WhatsApp when confirming this order. Our team will verify the UTR to process your order.
