@@ -419,16 +419,21 @@ export default function Cart() {
 
               {formData.paymentMethod === "upi_whatsapp" && (
                 <div className="mt-4 p-4 border border-forest/20 bg-forest/5 rounded-xl flex flex-col md:flex-row items-center gap-4">
-                  <img
-                    src={qrCodeImage}
-                    alt="Payment QR Code"
-                    className="w-32 h-auto rounded-lg bg-white p-1 shadow-sm"
-                  />
+                  <a 
+                    href={`upi://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`}
+                    className="shrink-0 block"
+                  >
+                    <img
+                      src={qrCodeImage}
+                      alt="Payment QR Code"
+                      className="w-32 h-auto rounded-lg bg-white p-1 shadow-sm border border-forest/10 hover:shadow-md transition-shadow"
+                    />
+                  </a>
                   <div className="text-xs text-charcoal/80 space-y-1">
-                    <p className="font-bold text-forest mb-1">Scan to Pay ₹{total} via UPI</p>
+                    <p className="font-bold text-forest mb-1">Tap QR or Scan to Pay ₹{total}</p>
                     <p className="mt-2 text-[11px] leading-relaxed text-charcoal/70">
                       <strong className="text-charcoal/90">How to verify payment?</strong><br/>
-                      After payment, your UPI app will show a success screen with a Transaction ID (UTR). Take a screenshot and share it on WhatsApp when confirming this order. Our team will verify the UTR to process your order.
+                      If you are on your phone, you can <strong>tap the QR code</strong> to directly open GPay/PhonePe. Otherwise, scan it from another phone. After payment, take a screenshot of the Transaction ID (UTR) and share it on WhatsApp when confirming this order.
                     </p>
                   </div>
                 </div>
