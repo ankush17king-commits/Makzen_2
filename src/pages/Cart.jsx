@@ -4,8 +4,8 @@ import { Minus, Plus, X, ShoppingBag, CheckCircle2, MessageSquare, ArrowRight, T
 import ProductImage from "../components/ProductImage";
 import { useStore } from "../context/StoreContext";
 
-const STORE_PHONE = "+91 94149 31938";
-const STORE_WA_NUMBER = "919414931938";
+const STORE_PHONE = "+91 70009 09219";
+const STORE_WA_NUMBER = "917000909219";
 const CUSTOMER_DATA_KEY = "makzen_customer_data_v1";
 
 function readSavedCustomerData() {
@@ -415,6 +415,24 @@ export default function Cart() {
                   <span className="text-xs sm:text-sm">Cash on Delivery</span>
                 </label>
               </div>
+
+              {formData.paymentMethod === "upi_whatsapp" && (
+                <div className="mt-4 p-4 border border-forest/20 bg-forest/5 rounded-xl flex flex-col md:flex-row items-center gap-4">
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=7000909219@upi&pn=Makzen&am=${total}`}
+                    alt="Payment QR Code"
+                    className="w-24 h-24 rounded-lg bg-white p-1 shadow-sm"
+                  />
+                  <div className="text-xs text-charcoal/80 space-y-1">
+                    <p className="font-bold text-forest mb-1">Scan to Pay ₹{total} via UPI</p>
+                    <p>UPI ID: <span className="font-bold text-charcoal">7000909219@upi</span></p>
+                    <p className="mt-2 text-[11px] leading-relaxed text-charcoal/70">
+                      <strong className="text-charcoal/90">How to verify payment?</strong><br/>
+                      After payment, your UPI app will show a success screen with a Transaction ID (UTR). Take a screenshot and share it on WhatsApp when confirming this order. Our team will verify the UTR to process your order.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <button

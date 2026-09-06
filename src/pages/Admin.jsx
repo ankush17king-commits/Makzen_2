@@ -24,6 +24,7 @@ export default function Admin() {
   const {
     products,
     updateProduct,
+    deleteProduct,
     toggleProductStock,
     resetProductOverrides,
     orders,
@@ -69,7 +70,7 @@ export default function Admin() {
 
   // Settings PIN change state
   const [newPin, setNewPin] = useState("");
-  const [newPhone, setNewPhone] = useState(settings?.phone || "+91 94149 31938");
+  const [newPhone, setNewPhone] = useState(settings?.phone || "+91 70009 09219");
 
   useEffect(() => {
     document.title = "Makzen Admin — Store Dashboard";
@@ -245,7 +246,7 @@ export default function Admin() {
             </h1>
           </div>
           <p className="text-xs text-cream/70 mt-1">
-            Store Contact: <span className="font-semibold text-saffron">{settings?.phone || "+91 94149 31938"}</span>
+            Store Contact: <span className="font-semibold text-saffron">{settings?.phone || "+91 70009 09219"}</span>
           </p>
         </div>
 
@@ -487,6 +488,17 @@ export default function Admin() {
                   </button>
 
                   <button
+                    onClick={() => {
+                      if (window.confirm(`Are you sure you want to delete ${prod.name}?`)) {
+                        deleteProduct(prod.id);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 hover:bg-red-100 text-red-600 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors"
+                  >
+                    <Trash2 size={13} /> Delete
+                  </button>
+
+                  <button
                     onClick={() => toggleProductStock(prod.id)}
                     className={`font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm ${
                       prod.inStock !== false
@@ -711,7 +723,7 @@ export default function Admin() {
                 type="text"
                 value={newPhone}
                 onChange={(e) => setNewPhone(e.target.value)}
-                placeholder="+91 94149 31938"
+                placeholder="+91 70009 09219"
                 className="w-full bg-beige/40 px-4 py-3 rounded-xl border border-charcoal/15 text-sm outline-none focus:border-forest"
               />
               <button

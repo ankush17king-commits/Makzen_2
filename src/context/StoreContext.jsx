@@ -11,8 +11,8 @@ const SETTINGS_KEY = "makzen_settings_v1";
 
 const DEFAULT_SETTINGS = {
   adminPin: "1702",
-  phone: "+91 94149 31938",
-  waNumber: "919414931938",
+  phone: "+91 70009 09219",
+  waNumber: "917000909219",
   freeShippingThreshold: 599,
   shippingFee: 49,
 };
@@ -66,14 +66,16 @@ export function StoreProvider({ children }) {
 
   // Compute merged products with overrides (inStock, price, mrp, etc.)
   const products = useMemo(() => {
-    return defaultProducts.map((p) => {
-      const override = productOverrides[p.id] || {};
-      return {
-        ...p,
-        ...override,
-        inStock: override.inStock !== undefined ? override.inStock : true,
-      };
-    });
+    return defaultProducts
+      .filter((p) => !(productOverrides[p.id]?.deleted))
+      .map((p) => {
+        const override = productOverrides[p.id] || {};
+        return {
+          ...p,
+          ...override,
+          inStock: override.inStock !== undefined ? override.inStock : true,
+        };
+      });
   }, [productOverrides]);
 
   const getProduct = useCallback((id) => products.find((p) => p.id === id), [products]);
@@ -84,6 +86,14 @@ export function StoreProvider({ children }) {
       [id]: { ...(prev[id] || {}), ...changes },
     }));
     showToast("Product updated successfully!");
+  }, [showToast]);
+
+  const deleteProduct = useCallback((id) => {
+    setProductOverrides((prev) => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), deleted: true },
+    }));
+    showToast("Product deleted successfully!");
   }, [showToast]);
 
   const toggleProductStock = useCallback((id) => {
@@ -204,6 +214,7 @@ export function StoreProvider({ children }) {
     products,
     getProduct,
     updateProduct,
+    deleteProduct,
     toggleProductStock,
     resetProductOverrides,
     orders,

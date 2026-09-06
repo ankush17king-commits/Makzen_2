@@ -29,8 +29,8 @@ export default function Contact() {
       <div className="grid md:grid-cols-[1fr_1.3fr] gap-10 md:gap-16">
         <div className="space-y-6">
           {[
-            { icon: Mail, title: "Email", value: "hello@makzen.in", href: "mailto:hello@makzen.in" },
-            { icon: Phone, title: "Phone", value: "+91 9414931938", href: "tel:+919414931938" },
+            { icon: Mail, title: "Email", value: "makzen121@gmail.com", href: "mailto:makzen121@gmail.com" },
+            { icon: Phone, title: "Phone", value: "+91 70009 09219", href: "tel:+917000909219" },
             { icon: MapPin, title: "Shop", value: "Jaipur, Rajasthan, India" },
           ].map(({ icon: Icon, title, value, href }) => (
             <div key={title} className="flex items-start gap-4 bg-beige/50 rounded-xl2 p-5">
