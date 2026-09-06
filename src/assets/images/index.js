@@ -3,6 +3,7 @@ import pouchPeriPeri from "./pouch-peri-peri.png";
 import pouchRockSalted from "./pouch-rock-salted.png";
 import pouchCreamOnion from "./pouch-cream-onion.png";
 import logo from "./logo.jpg";
+import myQrCode from "./my-qr-code.jpeg";
 
 // Maps product id -> real packaging photo. Products without an entry here
 // fall back to the illustrated Pouch placeholder (see components/Pouch.jsx).
@@ -14,3 +15,4 @@ export const productImages = {
 };
 
 export const logoImage = logo;
+export const qrCodeImage = myQrCode;

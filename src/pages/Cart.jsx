@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Minus, Plus, X, ShoppingBag, CheckCircle2, MessageSquare, ArrowRight, Truck, ShieldCheck } from "lucide-react";
 import ProductImage from "../components/ProductImage";
 import { useStore } from "../context/StoreContext";
+import { qrCodeImage } from "../assets/images";
 
 const STORE_PHONE = "+91 70009 09219";
 const STORE_WA_NUMBER = "917000909219";
@@ -419,9 +420,9 @@ export default function Cart() {
               {formData.paymentMethod === "upi_whatsapp" && (
                 <div className="mt-4 p-4 border border-forest/20 bg-forest/5 rounded-xl flex flex-col md:flex-row items-center gap-4">
                   <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=7000909219@upi&pn=Makzen&am=${total}`}
+                    src={qrCodeImage}
                     alt="Payment QR Code"
-                    className="w-24 h-24 rounded-lg bg-white p-1 shadow-sm"
+                    className="w-32 h-auto rounded-lg bg-white p-1 shadow-sm"
                   />
                   <div className="text-xs text-charcoal/80 space-y-1">
                     <p className="font-bold text-forest mb-1">Scan to Pay ₹{total} via UPI</p>
