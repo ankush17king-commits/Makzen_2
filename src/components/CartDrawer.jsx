@@ -17,7 +17,7 @@ export default function CartDrawer() {
         aria-hidden={!isCartOpen}
       />
       <aside
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-cream z-50 shadow-pouch transition-transform duration-400 ease-out flex flex-col ${
+        className={`fixed top-0 right-0 h-full w-[85vw] sm:w-[420px] bg-cream z-50 shadow-pouch transition-transform duration-400 ease-out flex flex-col ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"

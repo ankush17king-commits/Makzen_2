@@ -94,18 +94,32 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden fixed inset-0 bg-cream z-30 px-6 pt-[100px] pb-8 animate-fadeUp">
-          <nav className="flex flex-col gap-6 text-lg font-semibold">
-            {navLinks.map((link) => (
-              <Link key={link.label} to={link.to} onClick={() => setMenuOpen(false)} className="hover:text-saffron">
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+      {/* Mobile menu overlay */}
+      <div 
+        className={`md:hidden fixed inset-0 bg-charcoal/95 backdrop-blur-md z-30 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden={!menuOpen}
+      />
+      {/* Mobile menu drawer */}
+      <aside 
+        className={`md:hidden fixed top-0 left-0 h-full w-[85vw] max-w-[320px] bg-cream z-50 px-6 pt-8 pb-8 transition-transform duration-300 ease-out flex flex-col shadow-pouch ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        role="dialog"
+        aria-hidden={!menuOpen}
+      >
+        <div className="flex items-center justify-between mb-10">
+          <img src={logoImage} alt="Makzen" className="h-9 w-auto rounded-lg" />
+          <button onClick={() => setMenuOpen(false)} aria-label="Close menu" className="p-1 -mr-1 hover:text-saffron">
+            <X size={24} />
+          </button>
         </div>
-      )}
+        <nav className="flex flex-col gap-6 text-lg font-semibold">
+          {navLinks.map((link) => (
+            <Link key={link.label} to={link.to} onClick={() => setMenuOpen(false)} className="hover:text-saffron">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
 
       {/* Search overlay */}
       {searchOpen && (
