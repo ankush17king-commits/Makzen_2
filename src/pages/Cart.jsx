@@ -420,7 +420,7 @@ export default function Cart() {
               {formData.paymentMethod === "upi_whatsapp" && (
                 <div className="mt-4 p-4 border border-forest/20 bg-forest/5 rounded-xl flex flex-col md:flex-row items-center gap-4">
                   <a 
-                    href={`upi://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`}
+                    href={`upi://pay?pa=9414931938-4@ibl&pn=Makzen&am=${total}&cu=INR`}
                     className="shrink-0 block"
                   >
                     <img
@@ -435,13 +435,13 @@ export default function Cart() {
                       If you are on your phone, tap one of the apps below to pay directly:
                     </p>
                     <div className="flex flex-wrap gap-2 py-2">
-                      <a href={`phonepe://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#5f259f] hover:bg-[#4a1c7c] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                      <a href={`phonepe://pay?pa=9414931938-4@ibl&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#5f259f] hover:bg-[#4a1c7c] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
                         PhonePe
                       </a>
-                      <a href={`gpay://upi/pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-white hover:bg-gray-50 border border-charcoal/10 text-charcoal text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                      <a href={`gpay://upi/pay?pa=9414931938-4@ibl&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-white hover:bg-gray-50 border border-charcoal/10 text-charcoal text-[11px] font-bold rounded-lg shadow-sm transition-colors">
                         Google Pay
                       </a>
-                      <a href={`paytmmp://pay?pa=7000909219@upi&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#00BAF2] hover:bg-[#0099C5] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
+                      <a href={`paytmmp://pay?pa=9414931938-4@ibl&pn=Makzen&am=${total}&cu=INR`} className="px-3 py-1.5 bg-[#00BAF2] hover:bg-[#0099C5] text-white text-[11px] font-bold rounded-lg shadow-sm transition-colors">
                         Paytm
                       </a>
                     </div>
