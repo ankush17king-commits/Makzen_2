@@ -38,65 +38,67 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={`sticky top-0 z-40 bg-cream/95 backdrop-blur-sm border-b border-charcoal/5 transition-all duration-300 ${
-        scrolled ? "py-2" : "py-4"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden p-1 -ml-1"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMenuOpen((v) => !v)}
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        <Link
-          to="/"
-          className={`flex items-center gap-2 transition-all duration-300 md:static absolute left-1/2 -translate-x-1/2 md:translate-x-0`}
-        >
-          <img
-            src={logoImage}
-            alt="Makzen"
-            className={`w-auto rounded-lg transition-all duration-300 ${scrolled ? "h-9" : "h-11"}`}
-          />
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-8 font-semibold text-sm text-charcoal">
-          {navLinks.map((link) => (
-            <Link key={link.label} to={link.to} className="hover:text-saffron transition-colors">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4 md:gap-5">
-          <button aria-label="Search" onClick={() => setSearchOpen(true)} className="hover:text-saffron transition-colors">
-            <Search size={20} />
-          </button>
-          <Link to="/account" aria-label="Account" className="hidden sm:block hover:text-saffron transition-colors">
-            <User size={20} />
-          </Link>
+    <>
+      <header
+        className={`sticky top-0 z-40 bg-cream/95 backdrop-blur-sm border-b border-charcoal/5 transition-all duration-300 ${
+          scrolled ? "py-2" : "py-4"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
+          {/* Mobile hamburger */}
           <button
-            aria-label={`Cart, ${itemCount} items`}
-            onClick={() => setCartOpen(true)}
-            className="relative hover:text-saffron transition-colors"
+            className="md:hidden p-1 -ml-1"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((v) => !v)}
           >
-            <ShoppingBag size={20} />
-            {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-saffron text-cream text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">
-                {itemCount}
-              </span>
-            )}
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+
+          <Link
+            to="/"
+            className={`flex items-center gap-2 transition-all duration-300 md:static absolute left-1/2 -translate-x-1/2 md:translate-x-0`}
+          >
+            <img
+              src={logoImage}
+              alt="Makzen"
+              className={`w-auto rounded-lg transition-all duration-300 ${scrolled ? "h-9" : "h-11"}`}
+            />
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-8 font-semibold text-sm text-charcoal">
+            {navLinks.map((link) => (
+              <Link key={link.label} to={link.to} className="hover:text-saffron transition-colors">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4 md:gap-5">
+            <button aria-label="Search" onClick={() => setSearchOpen(true)} className="hover:text-saffron transition-colors">
+              <Search size={20} />
+            </button>
+            <Link to="/account" aria-label="Account" className="hidden sm:block hover:text-saffron transition-colors">
+              <User size={20} />
+            </Link>
+            <button
+              aria-label={`Cart, ${itemCount} items`}
+              onClick={() => setCartOpen(true)}
+              className="relative hover:text-saffron transition-colors"
+            >
+              <ShoppingBag size={20} />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-saffron text-cream text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile menu overlay */}
       <div 
-        className={`md:hidden fixed inset-0 bg-charcoal/95 backdrop-blur-md z-30 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`md:hidden fixed inset-0 bg-charcoal/95 backdrop-blur-md z-50 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden={!menuOpen}
       />
@@ -124,7 +126,7 @@ export default function Header() {
       {/* Search overlay */}
       {searchOpen && (
         <div
-          className="fixed inset-0 z-50 bg-charcoal/40 flex items-start justify-center pt-24 px-4"
+          className="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md flex items-start justify-center pt-24 px-4"
           onClick={() => setSearchOpen(false)}
         >
           <form
@@ -146,6 +148,6 @@ export default function Header() {
           </form>
         </div>
       )}
-    </header>
+    </>
   );
 }
