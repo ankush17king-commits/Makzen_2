@@ -7,7 +7,6 @@ import FeaturedProduct from "../components/FeaturedProduct";
 import WhyMakhana from "../components/WhyMakhana";
 import BrandStory from "../components/BrandStory";
 import HowItWorks from "../components/HowItWorks";
-import Testimonials from "../components/Testimonials";
 import InstagramGrid from "../components/InstagramGrid";
 import FAQ from "../components/FAQ";
 import Newsletter from "../components/Newsletter";
@@ -38,7 +37,6 @@ export default function Home() {
       <WhyMakhana />
       <BrandStory />
       <HowItWorks />
-      <Testimonials />
       <InstagramGrid />
       <FAQ />
       <Newsletter />

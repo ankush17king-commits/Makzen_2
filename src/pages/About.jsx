@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import BrandStory from "../components/BrandStory";
 import WhyMakhana from "../components/WhyMakhana";
 import HowItWorks from "../components/HowItWorks";
-import Testimonials from "../components/Testimonials";
 import Newsletter from "../components/Newsletter";
 
 export default function About() {
@@ -25,7 +24,6 @@ export default function About() {
       <BrandStory />
       <HowItWorks />
       <WhyMakhana />
-      <Testimonials />
       <Newsletter />
     </div>
   );
