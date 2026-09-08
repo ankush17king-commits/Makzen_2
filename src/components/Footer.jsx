@@ -52,14 +52,16 @@ export default function Footer() {
             <p className="mt-3 text-sm text-cream/60 max-w-xs">Crunch better. Snack happier.</p>
             <div className="flex gap-3 mt-5">
               {[
-                { Icon: InstagramIcon, label: "Instagram" },
-                { Icon: YoutubeIcon, label: "YouTube" },
-                { Icon: FacebookIcon, label: "Facebook" },
-              ].map(({ Icon, label }) => (
+                { Icon: InstagramIcon, label: "Instagram", href: "https://www.instagram.com/makzen121?stkn=MXBsY2wyMGxhOHQzNA==" },
+                { Icon: YoutubeIcon, label: "YouTube", href: "#" },
+                { Icon: FacebookIcon, label: "Facebook", href: "#" },
+              ].map(({ Icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
                   aria-label={label}
+                  target="_blank"
+                  rel="noreferrer"
                   className="w-9 h-9 rounded-full bg-cream/10 flex items-center justify-center hover:bg-saffron hover:text-charcoal transition-colors"
                 >
                   <Icon size={16} />

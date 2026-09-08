@@ -29,7 +29,7 @@ export default function InstagramGrid() {
       </div>
       <div className="text-center mt-10">
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/makzen121?stkn=MXBsY2wyMGxhOHQzNA=="
           target="_blank"
           rel="noreferrer"
           className="btn-primary inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm"
