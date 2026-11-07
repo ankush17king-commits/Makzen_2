@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, Sparkles } from "lucide-react";
 import { useStore } from "../context/StoreContext";
+import { useDiwali } from "../context/DiwaliContext";
 import { logoImage } from "../assets/images";
+import Deepak from "./Deepak";
 
-const navLinks = [
+const defaultNavLinks = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
   { label: "Our Story", to: "/about" },
@@ -12,13 +14,24 @@ const navLinks = [
   { label: "Contact", to: "/contact" },
 ];
 
-export default function Header() {
+export default function Header({ onOpenWishes = null }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const { itemCount, setCartOpen } = useStore();
+  const { isDiwaliActive } = useDiwali();
   const navigate = useNavigate();
+
+  const navLinks = isDiwaliActive
+    ? [
+        { label: "Home", to: "/" },
+        { label: "Shop", to: "/shop" },
+        { label: "Diwali Offers 🪔", to: "/#diwali-offers" },
+        { label: "Our Story", to: "/about" },
+        { label: "Contact", to: "/contact" },
+      ]
+    : defaultNavLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -63,6 +76,12 @@ export default function Header() {
               alt="Makzen"
               className={`w-auto rounded-lg transition-all duration-300 ${scrolled ? "h-9" : "h-11"}`}
             />
+            {isDiwaliActive && (
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold bg-amber-500/15 text-deep-orange border border-amber-500/30 px-2 py-0.5 rounded-full">
+                <Deepak size={16} glow={false} />
+                Festive Edition
+              </span>
+            )}
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 font-semibold text-sm text-charcoal">
@@ -73,7 +92,17 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4 md:gap-5">
+          <div className="flex items-center gap-3 md:gap-5">
+            {isDiwaliActive && onOpenWishes && (
+              <button
+                onClick={onOpenWishes}
+                className="hidden lg:flex items-center gap-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1.5 rounded-full shadow-sm hover:shadow-md transition-all hover:scale-105"
+                title="Diwali Special Offers & Wishes"
+              >
+                <Sparkles size={13} />
+                <span>Diwali 20% OFF</span>
+              </button>
+            )}
             <button aria-label="Search" onClick={() => setSearchOpen(true)} className="hover:text-saffron transition-colors">
               <Search size={20} />
             </button>

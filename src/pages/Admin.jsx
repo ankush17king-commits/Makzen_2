@@ -122,7 +122,8 @@ export default function Admin() {
     }
     const selectedProd = products.find((p) => p.id === manualOrder.productId) || products[0];
     const itemSubtotal = (selectedProd?.price || 190) * manualOrder.qty;
-    const itemShipping = itemSubtotal >= 599 ? 0 : 49;
+    const threshold = settings?.freeShippingThreshold || 500;
+    const itemShipping = itemSubtotal >= threshold ? 0 : (settings?.shippingFee || 49);
     const totalAmount = itemSubtotal + itemShipping;
 
     const orderId = `MKZ-${Math.floor(100000 + Math.random() * 900000)}`;

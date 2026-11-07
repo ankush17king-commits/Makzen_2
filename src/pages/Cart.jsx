@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Minus, Plus, X, ShoppingBag, CheckCircle2, MessageSquare, ArrowRight, Truck, ShieldCheck } from "lucide-react";
+import { Minus, Plus, X, ShoppingBag, CheckCircle2, MessageSquare, ArrowRight, Truck, ShieldCheck, Sparkles } from "lucide-react";
 import ProductImage from "../components/ProductImage";
+import Deepak from "../components/Deepak";
 import { useStore } from "../context/StoreContext";
 import { qrCodeImage } from "../assets/images";
 
@@ -30,15 +31,33 @@ function readSavedCustomerData() {
 }
 
 export default function Cart() {
-  const { cart, updateQty, removeFromCart, clearCart, addOrder, subtotal, showToast } = useStore();
+  const {
+    cart,
+    updateQty,
+    removeFromCart,
+    clearCart,
+    addOrder,
+    subtotal,
+    freeShippingThreshold,
+    shippingFee,
+    discountAmount,
+    appliedCoupon,
+    applyCoupon,
+    removeCoupon,
+    finalTotal,
+    showToast,
+  } = useStore();
+
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [confirmedOrder, setConfirmedOrder] = useState(null);
+  const [couponInput, setCouponInput] = useState("");
 
   const [formData, setFormData] = useState(() => readSavedCustomerData());
 
-  const shipping = subtotal >= 599 || subtotal === 0 ? 0 : 49;
-  const total = subtotal + shipping;
+  const threshold = freeShippingThreshold || 500;
+  const shipping = subtotal >= threshold || subtotal === 0 ? 0 : shippingFee;
+  const total = finalTotal;
 
   useEffect(() => {
     document.title = confirmedOrder ? "Order Confirmed! — Makzen" : "Your Cart — Makzen";
@@ -83,6 +102,8 @@ export default function Cart() {
         date: orderDate,
         items: [...cart],
         subtotal,
+        discount: discountAmount,
+        coupon: appliedCoupon?.code || null,
         shipping,
         total,
         customer: { ...formData },
@@ -105,11 +126,13 @@ export default function Cart() {
         `*Items Ordered:*\n${itemsText}\n` +
         `------------------------------------\n` +
         `*Subtotal:* ₹${subtotal}\n` +
-        `*Shipping:* ${shipping === 0 ? "FREE" : `₹${shipping}`}\n` +
+        (discountAmount > 0 ? `*Diwali Discount (${appliedCoupon?.code}):* -₹${discountAmount}\n` : "") +
+        `*Shipping:* ${shipping === 0 ? "FREE (Diwali Special on > ₹500)" : `₹${shipping}`}\n` +
         `*Total Amount:* ₹${total}\n` +
         `*Payment Preference:* ${paymentMethodLabel}\n` +
         `------------------------------------\n` +
-        `_Please confirm and process this order!_`
+        `🪔 Happy Diwali from Makzen! 🪔\n` +
+        `_Please confirm and process this festive order!_`
       );
 
       const waUrl = `https://wa.me/${STORE_WA_NUMBER}?text=${waMessage}`;
@@ -189,6 +212,12 @@ export default function Cart() {
                 <span>Subtotal</span>
                 <span>₹{confirmedOrder.subtotal}</span>
               </div>
+              {confirmedOrder.discount > 0 && (
+                <div className="flex justify-between text-forest font-semibold">
+                  <span>Diwali Discount ({confirmedOrder.coupon || "Offer"})</span>
+                  <span>-₹{confirmedOrder.discount}</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span>Shipping</span>
                 <span>{confirmedOrder.shipping === 0 ? "FREE" : `₹${confirmedOrder.shipping}`}</span>
@@ -467,17 +496,101 @@ export default function Cart() {
 
         {/* ORDER SUMMARY SIDEBAR */}
         <div className="bg-beige/60 rounded-xl2 p-6 h-fit sticky top-24">
-          <h2 className="font-display font-bold text-xl mb-5">Order Summary</h2>
+          <h2 className="font-display font-bold text-xl mb-4">Order Summary</h2>
+
+          {/* COUPON & DIWALI OFFER INPUT */}
+          <div className="mb-5 pb-5 border-b border-charcoal/10">
+            {appliedCoupon ? (
+              <div className="bg-amber-100/60 border border-amber-300 rounded-xl p-3 flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-deep-orange text-xs flex items-center gap-1">
+                    <Sparkles size={13} /> {appliedCoupon.code} Applied!
+                  </span>
+                  <span className="text-[11px] text-charcoal/70">{appliedCoupon.description}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeCoupon}
+                  className="text-xs text-red-600 hover:underline font-semibold ml-2"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (couponInput) {
+                      applyCoupon(couponInput);
+                      setCouponInput("");
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    type="text"
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value)}
+                    placeholder="Coupon code (e.g. DIWALI20)"
+                    className="flex-1 uppercase bg-white border border-charcoal/20 rounded-xl px-3 py-2 text-xs font-mono font-bold tracking-wider focus:outline-none focus:border-deep-orange"
+                  />
+                  <button
+                    type="submit"
+                    className="btn-primary rounded-xl px-4 py-2 text-xs font-bold"
+                  >
+                    Apply
+                  </button>
+                </form>
+
+                {/* Quick 1-Click Diwali Offer Pill */}
+                <div className="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-400/50 rounded-xl p-2.5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Deepak size={20} glow={false} />
+                    <div>
+                      <span className="font-bold text-deep-orange text-xs block">Best Diwali Offer</span>
+                      <span className="text-[11px] text-charcoal/75">Flat 20% OFF with code DIWALI20</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => applyCoupon("DIWALI20")}
+                    className="btn-diwali rounded-full px-3 py-1 text-[11px] font-bold"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="space-y-3 text-sm text-charcoal/70">
             <div className="flex justify-between">
               <span>Subtotal ({cart.reduce((s, i) => s + i.qty, 0)} items)</span>
               <span className="font-semibold text-charcoal">₹{subtotal}</span>
             </div>
+
+            {discountAmount > 0 && (
+              <div className="flex justify-between text-forest font-semibold">
+                <span className="flex items-center gap-1">
+                  <Sparkles size={13} /> Diwali Discount ({appliedCoupon?.code})
+                </span>
+                <span>-₹{discountAmount}</span>
+              </div>
+            )}
+
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span className="font-semibold text-charcoal">{shipping === 0 ? "FREE" : `₹${shipping}`}</span>
+              <span className="font-semibold text-charcoal">
+                {shipping === 0 ? (
+                  <span className="text-forest font-bold">FREE (Orders &gt; ₹500)</span>
+                ) : (
+                  `₹${shipping}`
+                )}
+              </span>
             </div>
           </div>
+
           <div className="border-t border-charcoal/10 my-4" />
           <div className="flex justify-between font-bold text-lg mb-6">
             <span>Total</span>
@@ -495,7 +608,7 @@ export default function Cart() {
 
           <div className="mt-6 space-y-2.5 text-[12px] text-charcoal/65">
             <div className="flex items-center gap-2">
-              <Truck size={14} className="text-forest shrink-0" /> Free delivery across India on orders above ₹599.
+              <Truck size={14} className="text-forest shrink-0" /> Free delivery across India on orders above ₹500.
             </div>
             <div className="flex items-center gap-2">
               <MessageSquare size={14} className="text-[#25D366] shrink-0" /> Orders are directly sent to WhatsApp at {STORE_PHONE}.

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Hero from "../components/Hero";
+import DiwaliOfferBanner from "../components/DiwaliOfferBanner";
 import Benefits from "../components/Benefits";
 import ProductGrid from "../components/ProductGrid";
 import FlavourFinder from "../components/FlavourFinder";
@@ -16,14 +17,15 @@ export default function Home() {
   const { products } = useStore();
 
   useEffect(() => {
-    document.title = "Makzen — Premium Roasted Makhana | Crunch Better";
+    document.title = "Makzen — Premium Roasted Makhana | Shubh Deepavali!";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Discover Makzen premium roasted makhana — bold flavours, satisfying crunch and better everyday snacking.");
+    if (meta) meta.setAttribute("content", "Discover Makzen premium roasted makhana — bold flavours, satisfying crunch and Diwali festive offers with free delivery on orders above ₹500.");
   }, []);
 
   return (
     <>
       <Hero />
+      <DiwaliOfferBanner />
       <Benefits />
       <ProductGrid
         id="bestsellers"

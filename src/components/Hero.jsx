@@ -1,62 +1,107 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Makhana from "./Makhana";
+import Deepak from "./Deepak";
 import { productImages } from "../assets/images";
+import { useDiwali } from "../context/DiwaliContext";
 
 const heroPhoto = productImages["cheese-peri-peri"];
 
 export default function Hero() {
+  const { isDiwaliActive } = useDiwali();
+
   return (
     <section className="relative overflow-hidden bg-cream">
+      {/* Subtle festive Diwali ambient warmth glow */}
+      {isDiwaliActive && (
+        <div className="absolute top-0 right-1/3 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+      )}
+
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-10 md:pt-16 pb-16 md:pb-24 grid md:grid-cols-2 gap-10 md:gap-8 items-center">
         {/* Left: copy */}
         <div className="relative z-10 text-center md:text-left">
-          <p className="eyebrow text-deep-orange animate-fadeUp" style={{ animationDelay: "0.05s" }}>
-            Premium Roasted Makhana
-          </p>
+          {isDiwaliActive ? (
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/15 via-orange-500/20 to-amber-500/15 border border-diwali-gold/50 rounded-full px-3.5 py-1 mb-3 text-deep-orange text-xs font-bold shadow-xs animate-fadeUp">
+              <Deepak size={18} glow={false} flameSpeed="fast" />
+              <span>SHUBH DEEPAVALI • 3-DAY FESTIVE OFFERS</span>
+            </div>
+          ) : (
+            <p className="eyebrow text-deep-orange animate-fadeUp" style={{ animationDelay: "0.05s" }}>
+              Premium Roasted Makhana
+            </p>
+          )}
+
           <h1
-            className="font-display font-black text-charcoal leading-[0.98] mt-4 animate-fadeUp"
+            className="font-display font-black text-charcoal leading-[0.98] mt-2 animate-fadeUp"
             style={{ fontSize: "clamp(2.75rem, 7vw, 5.5rem)", animationDelay: "0.15s" }}
           >
             Crunch
             <br />
             that makes
             <br />
-            <span className="text-saffron">sense.</span>
+            <span className={isDiwaliActive ? "text-gold-gradient" : "text-saffron"}>
+              {isDiwaliActive ? "festive sense." : "sense."}
+            </span>
           </h1>
+
           <p
             className="mt-6 text-charcoal/70 text-lg max-w-md mx-auto md:mx-0 animate-fadeUp"
             style={{ animationDelay: "0.3s" }}
           >
-            Light, crunchy and packed with flavour. Meet Makzen — roasted makhana
-            made for smarter everyday snacking.
+            {isDiwaliActive
+              ? "Celebrate the festival of lights with guilt-free, crispy roasted makhana. Enjoy FREE delivery on orders above ₹500 & 20% OFF with code DIWALI20!"
+              : "Light, crunchy and packed with flavour. Meet Makzen — roasted makhana made for smarter everyday snacking."}
           </p>
+
           <div
             className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fadeUp"
             style={{ animationDelay: "0.45s" }}
           >
-            <Link to="/shop" className="btn-primary rounded-full px-8 py-4 text-sm inline-flex items-center justify-center gap-2">
-              Shop Makhana <ArrowRight size={16} />
-            </Link>
-            <Link to="/about" className="btn-outline rounded-full px-8 py-4 text-sm inline-flex items-center justify-center">
-              Explore Our Story
-            </Link>
+            {isDiwaliActive ? (
+              <>
+                <a
+                  href="#diwali-offers"
+                  className="btn-diwali rounded-full px-8 py-4 text-sm inline-flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={16} /> Explore Diwali Offers (20% OFF)
+                </a>
+                <Link to="/shop" className="btn-outline rounded-full px-8 py-4 text-sm inline-flex items-center justify-center">
+                  Shop All Flavours
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/shop" className="btn-primary rounded-full px-8 py-4 text-sm inline-flex items-center justify-center gap-2">
+                  Shop Makhana <ArrowRight size={16} />
+                </Link>
+                <Link to="/about" className="btn-outline rounded-full px-8 py-4 text-sm inline-flex items-center justify-center">
+                  Explore Our Story
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
         {/* Right: product visual */}
         <div className="relative flex items-center justify-center h-[380px] sm:h-[440px] md:h-[520px]">
           <div className="absolute w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-beige/80 blur-[2px]" />
-          <div className="absolute w-[220px] h-[220px] md:w-[300px] md:h-[300px] rounded-full bg-saffron/10" />
+          <div className={`absolute w-[220px] h-[220px] md:w-[300px] md:h-[300px] rounded-full ${isDiwaliActive ? "bg-amber-400/20" : "bg-saffron/10"}`} />
 
           <div className="relative z-10 animate-fadeUp drop-shadow-[0_40px_60px_rgba(39,35,31,0.25)]" style={{ animationDelay: "0.2s" }}>
             <img src={heroPhoto} alt="Makzen Cheese & Peri Peri roasted makhana pouch, 60g" className="w-[240px] sm:w-[280px] md:w-[340px] h-auto" />
           </div>
 
           {/* floating badges */}
-          <span className="absolute top-6 left-2 md:left-0 bg-cream shadow-card rounded-full px-4 py-2 text-xs font-bold text-forest animate-float">
-            ROASTED
-          </span>
+          {isDiwaliActive ? (
+            <span className="absolute top-6 left-2 md:left-0 bg-gradient-to-r from-amber-500 to-orange-500 text-cream shadow-card rounded-full px-4 py-2 text-xs font-bold animate-float flex items-center gap-1.5 border border-amber-300/40">
+              <Deepak size={16} glow={false} /> FREE DELIVERY &gt; ₹500
+            </span>
+          ) : (
+            <span className="absolute top-6 left-2 md:left-0 bg-cream shadow-card rounded-full px-4 py-2 text-xs font-bold text-forest animate-float">
+              ROASTED
+            </span>
+          )}
+
           <span
             className="absolute bottom-16 left-0 md:-left-4 bg-cream shadow-card rounded-full px-4 py-2 text-xs font-bold text-deep-orange animate-floatSlow"
             style={{ animationDelay: "1s" }}
@@ -70,10 +115,17 @@ export default function Hero() {
             FLAVOURFUL
           </span>
 
-          {/* floating makhana pieces */}
+          {/* floating makhana pieces & Diwali Deepak */}
           <Makhana size={34} className="absolute bottom-6 right-8 animate-floatSlow" />
           <Makhana size={24} className="absolute top-4 right-16 animate-float" style={{ animationDelay: "0.6s" }} />
           <Makhana size={28} className="absolute bottom-24 left-10 animate-float" style={{ animationDelay: "1.4s" }} />
+
+          {/* Floating Deepak beside the hero product */}
+          {isDiwaliActive && (
+            <div className="absolute top-1/2 -right-2 md:right-4 transform -translate-y-1/2 animate-floatSlow" style={{ animationDelay: "0.8s" }}>
+              <Deepak size={52} glow={true} flameSpeed="fast" />
+            </div>
+          )}
         </div>
       </div>
     </section>

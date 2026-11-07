@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SlidersHorizontal, SearchX } from "lucide-react";
+import { SlidersHorizontal, SearchX, Sparkles } from "lucide-react";
 import ProductCard from "../components/ProductCard";
+import Deepak from "../components/Deepak";
 import { useStore } from "../context/StoreContext";
+import { useDiwali } from "../context/DiwaliContext";
 
-const categories = ["All", "Spicy", "Cheesy", "Fresh", "Classic"];
+const categories = ["All", "Festive Combos", "Spicy", "Cheesy", "Classic"];
 const sortOptions = [
   { value: "featured", label: "Featured" },
   { value: "price-asc", label: "Price: Low to High" },
@@ -14,6 +16,7 @@ const sortOptions = [
 
 export default function Shop() {
   const { products } = useStore();
+  const { isDiwaliActive } = useDiwali();
   const [searchParams, setSearchParams] = useSearchParams();
   const [category, setCategory] = useState(searchParams.get("category") || "All");
   const [sort, setSort] = useState("featured");
@@ -62,6 +65,28 @@ export default function Shop() {
         <h1 className="font-display font-extrabold text-4xl md:text-5xl text-charcoal">Shop All Flavours</h1>
         {query && <p className="text-charcoal/50 mt-3 text-sm">Showing results for "{query}"</p>}
       </div>
+
+      {isDiwaliActive && (
+        <div className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-[#2A0810] via-[#48101A] to-[#2A0810] text-cream border border-diwali-gold/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+          <div className="flex items-center gap-3">
+            <Deepak size={32} flameSpeed="fast" />
+            <div>
+              <span className="font-display font-bold text-base text-gold-gradient block">
+                Diwali Dhamaka Offers Active (3-Day Fest)
+              </span>
+              <span className="text-xs text-cream/80">
+                FREE Delivery on all orders above ₹500 across India • Extra 20% OFF with code <strong className="font-mono text-diwali-gold">DIWALI20</strong>
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={() => handleCategory("Festive Combos")}
+            className="btn-diwali rounded-full px-4 py-2 text-xs font-bold shrink-0 flex items-center gap-1.5"
+          >
+            <Sparkles size={13} /> View Diwali Gift Boxes
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex flex-wrap gap-2">

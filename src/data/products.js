@@ -72,7 +72,30 @@ export const products = [
     ingredients: "Fox nuts (makhana), edible oil, cream & onion seasoning (milk solids, onion powder, spices).",
     bestseller: false,
   },
-
+  {
+    id: "diwali-gift-box",
+    name: "Diwali Royal Celebration Box",
+    tagline: "All 4 signature flavours + decorative handcrafted festive diya.",
+    description:
+      "Celebrate the festival of lights with guilt-free gourmet crunch! Our limited-edition Diwali Royal Celebration Box includes Cheese & Peri Peri (60g), Rock Salted (60g), Peri Peri Punch (60g), and Cream & Onion (60g), packed in a premium festive golden gift box with a handcrafted festive Diya. The perfect healthy gift for family, friends, and corporate gifting.",
+    category: "Festive Combos",
+    tags: ["festive", "combo", "gift"],
+    price: 649,
+    mrp: 899,
+    rating: 4.9,
+    reviewCount: 342,
+    weight: "4 x 60g (240g)",
+    accent: "saffron",
+    highlights: [
+      "All 4 signature flavours included",
+      "Free handcrafted festive diya included",
+      "Qualifies for FREE Delivery (Orders > ₹500)",
+      "Extra 20% OFF with code DIWALI20",
+      "Roasted, never fried & 100% natural",
+    ],
+    ingredients: "Fox nuts (makhana), edible oil, gourmet seasoning blends (cheese, peri-peri, rock salt, cream & onion).",
+    bestseller: true,
+  },
 ];
 
 export const getProductById = (id) => products.find((p) => p.id === id);

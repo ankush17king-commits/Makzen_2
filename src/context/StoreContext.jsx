@@ -8,13 +8,41 @@ const WISHLIST_KEY = "makzen_wishlist_v1";
 const PRODUCTS_OVERRIDE_KEY = "makzen_products_override_v1";
 const ORDERS_LOG_KEY = "makzen_orders_log_v1";
 const SETTINGS_KEY = "makzen_settings_v1";
+const COUPON_KEY = "makzen_coupon_v1";
 
 const DEFAULT_SETTINGS = {
   adminPin: "1702",
   phone: "+91 70009 09219",
   waNumber: "917000909219",
-  freeShippingThreshold: 599,
+  freeShippingThreshold: 500,
   shippingFee: 49,
+};
+
+const VALID_COUPONS = {
+  DIWALI20: {
+    code: "DIWALI20",
+    type: "percent",
+    value: 20,
+    title: "Diwali Dhamaka Offer",
+    description: "Flat 20% OFF for the 3-day Diwali celebration",
+    minOrder: 0,
+  },
+  SHUBH20: {
+    code: "SHUBH20",
+    type: "percent",
+    value: 20,
+    title: "Shubh Deepavali Offer",
+    description: "Flat 20% OFF festive celebration discount",
+    minOrder: 0,
+  },
+  MAKZEN50: {
+    code: "MAKZEN50",
+    type: "flat",
+    value: 50,
+    title: "Diwali ₹50 Instant Voucher",
+    description: "Flat ₹50 OFF on orders above ₹500",
+    minOrder: 500,
+  },
 };
 
 function readStorage(key, fallback) {
@@ -26,12 +54,28 @@ function readStorage(key, fallback) {
   }
 }
 
+function readSettingsStorage() {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (!raw) return DEFAULT_SETTINGS;
+    const parsed = JSON.parse(raw);
+    // If threshold was the legacy default of 599, migrate to 500 for Diwali
+    if (parsed.freeShippingThreshold === 599 || !parsed.freeShippingThreshold) {
+      parsed.freeShippingThreshold = 500;
+    }
+    return { ...DEFAULT_SETTINGS, ...parsed };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
+
 export function StoreProvider({ children }) {
   const [productOverrides, setProductOverrides] = useState(() => readStorage(PRODUCTS_OVERRIDE_KEY, {}));
   const [orders, setOrders] = useState(() => readStorage(ORDERS_LOG_KEY, []));
-  const [settings, setSettings] = useState(() => readStorage(SETTINGS_KEY, DEFAULT_SETTINGS));
+  const [settings, setSettings] = useState(() => readSettingsStorage());
   const [cart, setCart] = useState(() => readStorage(CART_KEY, []));
   const [wishlist, setWishlist] = useState(() => readStorage(WISHLIST_KEY, []));
+  const [coupon, setCoupon] = useState(() => readStorage(COUPON_KEY, null));
   const [isCartOpen, setCartOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
@@ -55,6 +99,14 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist));
   }, [wishlist]);
+
+  useEffect(() => {
+    if (coupon) {
+      localStorage.setItem(COUPON_KEY, JSON.stringify(coupon));
+    } else {
+      localStorage.removeItem(COUPON_KEY);
+    }
+  }, [coupon]);
 
   useEffect(() => {
     if (!toast) return;
@@ -210,6 +262,46 @@ export function StoreProvider({ children }) {
 
   const itemCount = useMemo(() => cart.reduce((sum, i) => sum + i.qty, 0), [cart]);
 
+  const applyCoupon = useCallback(
+    (inputCode) => {
+      const code = (inputCode || "").trim().toUpperCase();
+      const found = VALID_COUPONS[code];
+      if (!found) {
+        showToast("Invalid coupon code. Try DIWALI20 for 20% OFF!");
+        return { success: false, message: "Invalid coupon code" };
+      }
+      if (found.minOrder && subtotal < found.minOrder) {
+        showToast(`Order value must be at least ₹${found.minOrder} to use ${code}`);
+        return { success: false, message: `Min order ₹${found.minOrder}` };
+      }
+      setCoupon(found);
+      const discountLabel = found.type === "percent" ? `${found.value}%` : `₹${found.value}`;
+      showToast(`🎉 Coupon "${code}" applied! You save ${discountLabel}!`);
+      return { success: true, message: "Coupon applied" };
+    },
+    [subtotal, showToast]
+  );
+
+  const removeCoupon = useCallback(() => {
+    setCoupon(null);
+    showToast("Coupon removed");
+  }, [showToast]);
+
+  const discountAmount = useMemo(() => {
+    if (!coupon) return 0;
+    if (coupon.type === "percent") {
+      return Math.round((subtotal * coupon.value) / 100);
+    }
+    if (coupon.type === "flat") {
+      return Math.min(subtotal, coupon.value);
+    }
+    return 0;
+  }, [coupon, subtotal]);
+
+  const freeShippingThreshold = settings?.freeShippingThreshold || 500;
+  const shippingFee = subtotal >= freeShippingThreshold || subtotal === 0 ? 0 : (settings?.shippingFee || 49);
+  const finalTotal = Math.max(0, subtotal - discountAmount) + shippingFee;
+
   const value = {
     products,
     getProduct,
@@ -235,6 +327,14 @@ export function StoreProvider({ children }) {
     setCartOpen,
     wishlist,
     toggleWishlist,
+    coupon,
+    appliedCoupon: coupon,
+    applyCoupon,
+    removeCoupon,
+    discountAmount,
+    freeShippingThreshold,
+    shippingFee,
+    finalTotal,
     toast,
     showToast,
   };

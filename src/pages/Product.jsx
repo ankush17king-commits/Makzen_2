@@ -4,7 +4,6 @@ import { Star, Minus, Plus, Heart, Truck, ShieldCheck, RefreshCcw } from "lucide
 import ProductImage from "../components/ProductImage";
 import Makhana from "../components/Makhana";
 import ProductCard from "../components/ProductCard";
-import { getProductById, products } from "../data/products";
 import { useStore } from "../context/StoreContext";
 
 const tabs = ["Description", "Ingredients", "FAQ"];
@@ -101,6 +100,13 @@ export default function Product() {
 
           <p className="text-charcoal/70 leading-relaxed mb-6">{product.tagline}</p>
 
+          <div className="p-3 rounded-xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-400/40 text-xs text-charcoal/80 mb-6 flex items-center justify-between">
+            <span className="flex items-center gap-1.5 font-semibold text-deep-orange">
+              <span>🪔</span> Diwali Offer: Code <strong className="font-mono text-charcoal bg-amber-200/60 px-1.5 py-0.5 rounded">DIWALI20</strong> for 20% OFF
+            </span>
+            <span className="text-[11px] text-forest font-bold">Free Shipping &gt; ₹500</span>
+          </div>
+
           <div className="flex flex-wrap gap-2 mb-6">
             {product.highlights.map((h) => (
               <span key={h} className="text-xs font-semibold bg-beige/70 text-charcoal/70 px-3 py-1.5 rounded-full">
@@ -153,7 +159,7 @@ export default function Product() {
           <div className="grid grid-cols-3 gap-3 text-center border-t border-charcoal/10 pt-6">
             <div className="flex flex-col items-center gap-1.5">
               <Truck size={18} className="text-forest" />
-              <span className="text-[11px] text-charcoal/60 leading-tight">Free shipping above ₹599</span>
+              <span className="text-[11px] text-charcoal/60 leading-tight">Free shipping above ₹500</span>
             </div>
             <div className="flex flex-col items-center gap-1.5">
               <ShieldCheck size={18} className="text-forest" />

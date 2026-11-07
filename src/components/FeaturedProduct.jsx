@@ -5,7 +5,6 @@ import ProductImage from "./ProductImage";
 import Makhana from "./Makhana";
 import useReveal from "../hooks/useReveal";
 import { useStore } from "../context/StoreContext";
-import { getProductById } from "../data/products";
 
 export default function FeaturedProduct() {
   const ref = useReveal();

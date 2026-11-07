@@ -23,6 +23,10 @@ export default function ProductCard({ product }) {
         <span className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
           OUT OF STOCK
         </span>
+      ) : product.id === "diwali-gift-box" || product.festive ? (
+        <span className="absolute top-3 left-3 z-10 bg-gradient-to-r from-amber-500 to-orange-500 text-cream text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+          <span>🪔</span> DIWALI SPECIAL
+        </span>
       ) : (
         discount > 0 && (
           <span className="absolute top-3 left-3 z-10 bg-forest text-cream text-[11px] font-bold px-2.5 py-1 rounded-full">
@@ -51,10 +55,17 @@ export default function ProductCard({ product }) {
           <span>({product.reviewCount})</span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-lg text-charcoal">₹{product.price}</span>
-          {product.mrp > product.price && (
-            <span className="text-sm text-charcoal/40 line-through">₹{product.mrp}</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-lg text-charcoal">₹{product.price}</span>
+            {product.mrp > product.price && (
+              <span className="text-sm text-charcoal/40 line-through">₹{product.mrp}</span>
+            )}
+          </div>
+          {product.price >= 500 && (
+            <span className="text-[10px] text-forest font-bold bg-forest/10 px-2 py-0.5 rounded-full">
+              Free Delivery
+            </span>
           )}
         </div>
 

@@ -94,3 +94,36 @@ h1, h2, h3, h4, .font-display {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Diwali Festive Styling */
+.diya-flame-origin {
+  transform-origin: 60px 42px;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFD700 0%, #FF9900 50%, #D97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-festive-shimmer {
+  background: linear-gradient(90deg, #7B1113 0%, #9A1B28 25%, #FB8500 50%, #9A1B28 75%, #7B1113 100%);
+  background-size: 200% auto;
+}
+
+.btn-diwali {
+  background: linear-gradient(135deg, #FB8500 0%, #E88912 50%, #C9650A 100%);
+  color: #FFF8EC;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 15px rgba(251, 133, 0, 0.35);
+  transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-diwali:hover {
+  background: linear-gradient(135deg, #FFB703 0%, #FB8500 50%, #C9650A 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(251, 133, 0, 0.55);
+}
+.btn-diwali:active {
+  transform: translateY(0);
+}
